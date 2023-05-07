@@ -36,12 +36,12 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HawkWolf1/expense-tracker-backend.git"
+    "url": "git+https://github.com/HawkWolf1/chatApp.git"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/HawkWolf1/expense-tracker-backend/issues"
+    "url": "https://github.com/HawkWolf1/chatApp/issues"
   },
-  "homepage": "https://github.com/HawkWolf1/expense-tracker-backend#readme",
+  "homepage": "https://github.com/HawkWolf1/chatApp#readme",
   "description": ""
 }
