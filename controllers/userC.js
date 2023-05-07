@@ -18,6 +18,11 @@ const addUser = async (req, res, next) => {
     if(checkString(name) || checkString(email) || checkString(password) || checkString(phoneNo)){
         return res.status(400).json({ err: "Bad parameters . Something is missing"})
         }
+
+    const existingUser = await myTable.findOne({ where: { email: email } })
+    if(existingUser){
+        return res.status(409).json({ message: 'User already exists!' })
+    }
     
     const saltrounds =10
     bcrypt.hash(password, saltrounds, async(err, hash) =>{
@@ -39,10 +44,6 @@ const addUser = async (req, res, next) => {
 
 
 
-function generateAccessToken(id, name, isPremiumUser){
-    return jwt.sign({userId:id, name:name, isPremiumUser}, 'Rockettt')
-}
-
 
 
 const loginN = async (req, res, next) => {
@@ -56,7 +57,7 @@ const loginN = async (req, res, next) => {
                     res.status(500).json({success: false, message: 'We got some error'})
                 }
                 if(result===true){
-                    res.status(200).json({success: true, message: 'Login is successful', token: generateAccessToken(xyz[0].id, xyz[0].name, xyz[0].isPremiumUser)})
+                    res.status(200).json({success: true, message: 'Login is successful'})
                 }
                 else{
                   return res.status(400).json({success: false, message: 'Password is incorrect'})

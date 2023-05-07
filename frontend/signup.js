@@ -13,16 +13,21 @@ async function newF(event){
     }
     try{
         const abc = await axios.post("http://localhost:4000/user/add-user", myObject) 
+        console.log(abc)
         if (abc.status === 201){
             
             window.location.href = "./login.html"
-        } else {
+        
+        }else {
             throw new Error('Unable to Sign you Up')
         }
-    }
+    
        
-    catch(err){
-        document.body.innerHTML = document.body.innerHTML + "<h3 style='color:red'> Something went wrong!!! </h3>"
-        console.log("Error Block: ",err)
-    }                  
-}
+} catch (err) {
+    if (err.response && err.response.status === 409) {
+      alert(err.response.data.message)
+    } else {
+      document.body.innerHTML = document.body.innerHTML + "<h3 style='color:red'> Some Error Occured! </h3>"
+      console.log("Error Block: ",err)
+    }                
+    }}
