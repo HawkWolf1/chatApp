@@ -14,7 +14,6 @@ async function login(event){
             alert(pqr.data.message)
             if (pqr.status === 200){     
                     localStorage.setItem('token', pqr.data.token)                      
-                     alert('login done')
                     } else {
                         throw new Error('Unable to log you in!')
                     }
