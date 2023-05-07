@@ -1,0 +1,47 @@
+{
+  "dependencies": {
+    "@okta/okta-sdk-nodejs": "^7.0.0",
+    "@sendgrid/mail": "^7.7.0",
+    "aws-sdk": "^2.1362.0",
+    "bcrypt": "^5.1.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-rate-limit": "^6.7.0",
+    "firebase-admin": "^11.7.0",
+    "helmet": "^6.1.5",
+    "jsonwebtoken": "^9.0.0",
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
+    "node": "^19.0.1",
+    "razorpay": "^2.8.6",
+    "sendinblue-api": "^1.0.8",
+    "sequelize": "^6.25.5",
+    "sib-api-v3-sdk": "^8.5.0",
+    "uuid": "^9.0.0",
+    "uuid-v4": "^0.1.0"
+  },
+  "name": "fullstackapp",
+  "version": "1.0.0",
+  "main": "app.js",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "scripts": {
+    "start": "nodemon app.js",
+    "start-server": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HawkWolf1/expense-tracker-backend.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/HawkWolf1/expense-tracker-backend/issues"
+  },
+  "homepage": "https://github.com/HawkWolf1/expense-tracker-backend#readme",
+  "description": ""
+}
