@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="signup.css">
+        <title> Sign Up Page </title>
+        <style>
+            h3{text-align: center;}
+            p{text-align: center;}
+
+        </style>
+
+    </head>
+    
+        <body>
+        <h3> SIGN UP PAGE </h3>
+        <form onsubmit="newF(event)">
+        <p> <label>NAME</label>
+            <input id="name" type="text" name="name" required size="50" ><br>
+
+            <label> EMAIL </label>
+            <input id="email" type="email" name="email" required size="50" ><br>
+
+            <label> PASSWORD </label>
+            <input id="password" type="password" name="password" required size="50" ><br>
+
+            <button> SIGN UP </button>
+        </form>
+        </p>
+        <a href = "./login.html"> EXISTING USER - LOGIN</a>
+        <ul id="listOfUsers"> </ul>
+
+ 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>        
+        <script src=signup.js></script>
+
+        
+        
+        </body>
+    
+</html>
