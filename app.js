@@ -3,7 +3,9 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const app = express() 
 
-app.use(cors()) 
+app.use(cors({
+    origin: "*"
+})) 
 
 
 const sequelize = require('./util/database')
