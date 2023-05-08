@@ -13,7 +13,8 @@ async function login(event){
             console.log(pqr)
             alert(pqr.data.message)
             if (pqr.status === 200){     
-                    localStorage.setItem('token', pqr.data.token)                      
+                    localStorage.setItem('token', pqr.data.token)   
+                    window.location.href = "./chatapp.html"                   
                     } else {
                         throw new Error('Unable to log you in!')
                     }
