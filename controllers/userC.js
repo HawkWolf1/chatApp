@@ -43,8 +43,8 @@ const addUser = async (req, res, next) => {
 
 
 
-function generateAccessToken(id){
-    return jwt.sign({userId:id}, 'Rockettt')
+function generateAccessToken(id, name){
+    return jwt.sign({userId:id, name:name}, 'Rockettt')
 }
 
 
@@ -59,7 +59,7 @@ const loginN = async (req, res, next) => {
                     res.status(500).json({success: false, message: 'We got some error'})
                 }
                 if(result===true){
-                    res.status(200).json({success: true, message: 'Login is successful', token: generateAccessToken(xyz[0].id)})
+                    res.status(200).json({success: true, message: 'Login is successful', token: generateAccessToken(xyz[0].id, xyz[0].name), name:xyz[0].name})
                 }
                 else{
                   return res.status(400).json({success: false, message: 'Password is incorrect'})
