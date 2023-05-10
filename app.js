@@ -10,11 +10,19 @@ app.use(cors({
 
 const sequelize = require('./util/database')
 const userRoutes = require('./Routes/user')
+
+const myTable = require('./models/userTable')
+const chatTable = require('./models/messageTable')
  
 
 app.use(bodyParser.json({extended: false})) 
 
 app.use(userRoutes) 
+
+
+
+myTable.hasMany(chatTable);
+chatTable.belongsTo(myTable);
 
 
 sequelize.sync().then(() => {

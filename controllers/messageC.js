@@ -3,12 +3,14 @@ const chatTable = require('../models/messageTable')
 const sendMessage = async (req, res) => {
   try {
     const newMessage = {
-      message: req.body.chatInput,
-      name: req.body.name1,
+      message: req.body.message,
+      name: req.body.name,
       id: req.body.id,
+      userId: req.user.id
+      
       
     };
-
+    
     const result = await chatTable.create(newMessage);
 
     console.log(result);
@@ -27,6 +29,21 @@ const sendMessage = async (req, res) => {
 };
 
 
+
+
+const getMessage = async (req, res, next) => {
+  try {
+    const messages = await chatTable.findAll()
+      res.status(200).json({ msg: messages })
+  } catch (error) {
+      console.log('Get message is failing', error)
+      res.status(500).json({ error: 'err' })
+  }
+}
+
+
+
   module.exports = {
-   sendMessage
+   sendMessage,
+   getMessage
 }

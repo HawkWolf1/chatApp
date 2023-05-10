@@ -1,20 +1,12 @@
-const parent = document.getElementById("chat");
-
-function showMessageOnScreen(chat,name){
-    parent.innerHTML+=`<h4>${name}: ${chat}</h4>`
-}
-
-
-
 document.getElementById("send").addEventListener("click", async () => {
     try {
       const token = localStorage.getItem("token");
-      const name1 = localStorage.getItem("name");
-      const chatInput = document.getElementById("chatInput").value;
+      const name = localStorage.getItem("name");
+      const message = document.getElementById("chatInput").value;
   
       const obj = {
-        chatInput,
-        name1,
+        name,
+        message,
       };
   
       console.log(obj);
@@ -28,3 +20,29 @@ document.getElementById("send").addEventListener("click", async () => {
       console.log(err);
     }
   });
+
+
+
+
+
+const parent = document.getElementById("chat");
+
+
+async function fetchChats() {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.get("http://localhost:4000/user/getChats", { headers: { Authorization: token } });
+    const chats = response.data.msg;
+  
+    chats.forEach(msg => {
+      const chatDiv = document.createElement("div");
+      chatDiv.innerHTML = `<strong>${msg.name}: </strong>${msg.message}`;
+      parent.appendChild(chatDiv);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
+fetchChats()
