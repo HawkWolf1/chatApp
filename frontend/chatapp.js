@@ -25,24 +25,24 @@ document.getElementById("send").addEventListener("click", async () => {
 
 
 
-const parent = document.getElementById("chat");
+  const parent = document.getElementById("chat");
 
 
-async function fetchChats() {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await axios.get("http://localhost:4000/user/getChats", { headers: { Authorization: token } });
-    const chats = response.data.msg;
-  
-    chats.forEach(msg => {
-      const chatDiv = document.createElement("div");
-      chatDiv.innerHTML = `<strong>${msg.name}: </strong>${msg.message}`;
-      parent.appendChild(chatDiv);
-    });
-  } catch (err) {
-    console.log(err);
+  async function fetchChats() {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://localhost:4000/user/getChats", { headers: { Authorization: token } });
+      const chats = response.data.msg;
+    
+      chats.forEach(msg => {
+        const chatDiv = document.createElement("div");
+        chatDiv.innerHTML = `<strong>${msg.name}: </strong>${msg.message}`;
+        parent.appendChild(chatDiv);
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
-}
-
-
-fetchChats()
+  
+  
+  fetchChats()

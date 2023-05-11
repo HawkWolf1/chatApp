@@ -20,7 +20,7 @@ const msgTable = sequelize.define('message', {
     
 },
 {
-    timestamps: false
+    timestamps: true
 }
 )   
 
