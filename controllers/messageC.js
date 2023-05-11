@@ -34,7 +34,7 @@ const sendMessage = async (req, res) => {
 const getMessage = async (req, res, next) => {
   try {
     const messages = await chatTable.findAll({
-      limit: 5,
+      limit: 10,
       order: [['createdAt', 'DESC']]
     });
       res.status(200).json({ msg: messages })
