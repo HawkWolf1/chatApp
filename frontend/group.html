@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <!-- <link rel="stylesheet" href="login.css"> -->
+        <title> GROUP PAGE </title>
+        <style>
+            h3{text-align: center;}
+            p{text-align: center;}
+
+        </style>
+        <h3> GROUP PAGE </h3>
+    </head>
+    
+    <body>
+    
+    <form id="groupF">
+        <button onclick="showGroupForm(event)">Create Group</button>  
+        <button id="showGroupsButton" onclick="showGroupsList(event)">Show My Groups</button> 
+
+</form>
+   
+<div id="groupForm" style="display:none">
+    <h3>CREATE NEW GROUP</h3>
+    <form>
+        <label>Group Name</label>
+        <input type="text" name="groupname" id="groupname" required><br><br>
+
+        <label>Add Members</label>
+        <select multiple id="members"  onchange="addSelectedMember()"></select><br><br>
+
+        <label>Selected Members</label>
+        <input type="text" name="selectedMembers" id="selectedMembers" required ><br><br>
+
+        <button type="button" onclick="createGroup(event)">Create</button>
+
+        
+
+    </form>
+</div>
+
+        
+        <ul id="groupList"></ul> 
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+<script src=group.js></script>
+
+
+
+</body>
+
+</html>

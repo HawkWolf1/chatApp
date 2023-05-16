@@ -13,6 +13,8 @@ const userRoutes = require('./Routes/user')
 
 const myTable = require('./models/userTable')
 const chatTable = require('./models/messageTable')
+const myGroupTable = require('./models/groupTable');
+const myUsersGroupTable = require('./models/usergroupTable')
  
 
 app.use(bodyParser.json({extended: false})) 
@@ -23,6 +25,18 @@ app.use(userRoutes)
 
 myTable.hasMany(chatTable);
 chatTable.belongsTo(myTable);
+
+myGroupTable.hasMany(chatTable);
+chatTable.belongsTo(myGroupTable);
+
+myGroupTable.belongsToMany(myTable, { through: myUsersGroupTable });
+myTable.belongsToMany(myGroupTable, { through: myUsersGroupTable });
+
+// myGroupTable.hasMany(myTable);
+// myTable.belongsTo(myGroupTable);
+
+// myTable.hasMany(myGroupTable);
+// myGroupTable.belongsTo(myTable);
 
 
 sequelize.sync().then(() => {
