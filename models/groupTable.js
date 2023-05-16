@@ -22,10 +22,11 @@ const grpTable = sequelize.define('group', {
 
     },
 
-    // grouplink: {
-    //     type: Sequelize.STRING,
-    //     // defaultValue: ''
-    // }
+    grouplink: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: ''
+    }
     
     
 },

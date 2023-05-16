@@ -35,6 +35,7 @@ const createGroup = async (req, res) => {
       };
   
       const result = await grpTable.create(newGroup);
+      const groupId = result.id; 
       console.log(result)
       
       const memberEmails = newGroup.members.split(',');
@@ -60,13 +61,17 @@ const createGroup = async (req, res) => {
 
      await Promise.all(memberIDs.map(memberID => {
       return groupNUser.create({
-        groupId: result.id,
+        groupId: groupId,
         userId: memberID
       });
     }));
 
+    const groupLink = `./chatapp.html?groupId=${groupId}`;
+    await grpTable.update({ grouplink: groupLink }, { where: { id: groupId } });
+
       res.status(201).json({
         message: "Group added to DB",
+        groupId: groupId 
       });
 
 
@@ -85,7 +90,7 @@ const createGroup = async (req, res) => {
   const showGroups = async (req, res, next) => {
     try {
       const userId = req.query.userId
-      
+
       const userGroups = await groupNUser.findAll({
         where: { userId: userId },
         attributes: ["groupId"],

@@ -31,7 +31,13 @@ document.getElementById("send").addEventListener("click", async () => {
   async function fetchChats() {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:4000/user/getChats", { headers: { Authorization: token } });
+      const groupId = localStorage.getItem("groupId");
+
+      // const response = await axios.get("http://localhost:4000/user/getChats", { headers: { Authorization: token } });
+      const response = await axios.get("http://localhost:4000/user/getChats", {
+        params: { groupId: groupId }, // Pass the groupId as a parameter
+        headers: { Authorization: token },
+      });
       const chats = response.data.msg;
     
       chats.forEach(msg => {

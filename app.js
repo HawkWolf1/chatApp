@@ -32,11 +32,7 @@ chatTable.belongsTo(myGroupTable);
 myGroupTable.belongsToMany(myTable, { through: myUsersGroupTable });
 myTable.belongsToMany(myGroupTable, { through: myUsersGroupTable });
 
-// myGroupTable.hasMany(myTable);
-// myTable.belongsTo(myGroupTable);
 
-// myTable.hasMany(myGroupTable);
-// myGroupTable.belongsTo(myTable);
 
 
 sequelize.sync().then(() => {

@@ -61,9 +61,12 @@ async function createGroup(e) {
         const response = await axios.post("http://localhost:4000/group/create", groupData, { headers: { Authorization: token } });
         
         if (response.status === 201){
+          const groupId = response.data.groupId; // Assuming the response includes the groupId
+          localStorage.setItem("groupId", groupId); 
+
             alert(response.data.message);
             
-            window.location.href = "./group.html";
+            window.location.href =  `./chatapp.html?groupId=${groupId}`;
 
         }
     } catch (error) {
@@ -101,7 +104,7 @@ function showAllGroups(groups) {
     const listItem = document.createElement("li");
     const link = document.createElement("a");
     link.textContent = group;
-    link.href = "./chatapp.html" 
+    link.href = `./chatapp.html?groupId=${group.id}`;
     listItem.appendChild(link);
     groupList.appendChild(listItem);
   });
