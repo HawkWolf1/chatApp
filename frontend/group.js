@@ -98,9 +98,12 @@ function showAllGroups(groups) {
   groupList.innerHTML = "";
   
   groups.forEach((group) => {
-      const listItem = document.createElement("li");
-      listItem.textContent = group;
-      groupList.appendChild(listItem);
+    const listItem = document.createElement("li");
+    const link = document.createElement("a");
+    link.textContent = group;
+    link.href = "./chatapp.html" 
+    listItem.appendChild(link);
+    groupList.appendChild(listItem);
   });
 }
 
