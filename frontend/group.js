@@ -108,7 +108,7 @@ function showAllGroups(groups) {
     listItem.appendChild(groupName);
 
     const link = document.createElement("a");
-    link.textContent = "Group Link";
+    link.textContent = "  Open chats";
     link.href = group.groupLink;
     listItem.appendChild(link);
 
