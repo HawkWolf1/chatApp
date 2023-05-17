@@ -19,6 +19,7 @@ router.get('/user/getChats',userAuthentication.authenticate, msgController.getMe
 router.post('/group/create',userAuthentication.authenticate, groupController.createGroup)
 router.get('/user/all', groupController.fetchMembers)
 router.get('/group/showAll',userAuthentication.authenticate,groupController.showGroups )
+router.get('/group/getGroupLink/:groupId',userAuthentication.authenticate, groupController.showGroups )
 
 
 module.exports = router

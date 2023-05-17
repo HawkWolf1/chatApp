@@ -6,11 +6,12 @@ const sendMessage = async (req, res) => {
       message: req.body.message,
       name: req.body.name,
       id: req.body.id,
-      userId: req.user.id
+      userId: req.user.id,
+      groupId: req.body.groupId,
       
       
     };
-    
+
     const result = await chatTable.create(newMessage);
 
     console.log(result);
@@ -33,7 +34,9 @@ const sendMessage = async (req, res) => {
 
 const getMessage = async (req, res, next) => {
   try {
+    const groupId = req.query.groupId
     const messages = await chatTable.findAll({
+      where: { groupId: groupId },
       limit: 10,
       order: [['createdAt', 'DESC']]
     });

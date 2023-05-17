@@ -86,6 +86,7 @@ const createGroup = async (req, res) => {
 
 
 
+  
 
   const showGroups = async (req, res, next) => {
     try {
@@ -100,19 +101,21 @@ const createGroup = async (req, res) => {
   
       const groups = await grpTable.findAll({
         where: { id: groupIds },
-        attributes: [ "groupName"],
+        attributes: ["groupName", "grouplink"],
       });
 
-      const groupNames = groups.map((group) => group.groupName);
-  
-      res.status(200).json({ groups: groupNames });
+      const groupData = groups.map((group) => ({
+        groupName: group.groupName,
+        groupLink: group.grouplink,
+      }));
+
+     console.log(groupData)
+      res.status(200).json({ groups: groupData });
     } catch (error) {
         console.log('fetch groups is failing', error)
         res.status(500).json({ error: 'err' })
     }
   }
-
-
 
 
 

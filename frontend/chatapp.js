@@ -3,10 +3,14 @@ document.getElementById("send").addEventListener("click", async () => {
       const token = localStorage.getItem("token");
       const name = localStorage.getItem("name");
       const message = document.getElementById("chatInput").value;
+      const urlParams = new URLSearchParams(window.location.search);
+      const groupId = urlParams.get("groupId");
+      console.log(groupId)
   
       const obj = {
         name,
         message,
+        groupId
       };
   
       console.log(obj);
@@ -31,13 +35,14 @@ document.getElementById("send").addEventListener("click", async () => {
   async function fetchChats() {
     try {
       const token = localStorage.getItem("token");
-      const groupId = localStorage.getItem("groupId");
+      const urlParams = new URLSearchParams(window.location.search);
+      const groupId = urlParams.get("groupId");
 
-      // const response = await axios.get("http://localhost:4000/user/getChats", { headers: { Authorization: token } });
+
       const response = await axios.get("http://localhost:4000/user/getChats", {
-        params: { groupId: groupId }, // Pass the groupId as a parameter
-        headers: { Authorization: token },
-      });
+      params: { groupId },
+      headers: { Authorization: token },
+    });
       const chats = response.data.msg;
     
       chats.forEach(msg => {
