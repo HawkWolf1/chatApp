@@ -96,6 +96,9 @@ async function showGroupsList(e) {
   }
 }
 
+
+let activeIframe = null; // Track the active iframe
+
 function showAllGroups(groups) {
   const groupList = document.getElementById("groupList");
   groupList.innerHTML = "";
@@ -108,10 +111,25 @@ function showAllGroups(groups) {
     listItem.appendChild(groupName);
 
     const link = document.createElement("a");
-    link.textContent = "  Open chats";
-    link.href = group.groupLink;
-    listItem.appendChild(link);
+    link.textContent = "Open chats";
+    link.href = "javascript:void(0)"; // Set href to prevent navigation
 
+    link.addEventListener("click", () => {
+      if (activeIframe) {
+        // If an active iframe exists, remove it
+        activeIframe.remove();
+      }
+
+      const iframe = document.createElement("iframe");
+      iframe.src = group.groupLink;
+      iframe.style.width = "100%";
+      iframe.style.height = "400px"; // Adjust the height as needed
+
+      listItem.appendChild(iframe);
+      activeIframe = iframe;
+    });
+
+    listItem.appendChild(link);
     groupList.appendChild(listItem);
   });
 }
