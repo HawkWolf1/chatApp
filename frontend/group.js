@@ -50,10 +50,12 @@ async function createGroup(e) {
     e.preventDefault();
     const groupName = document.getElementById("groupname").value;
     const membersSelect = document.getElementById("selectedMembers").value;
+    const userId = localStorage.getItem('userId')
    
     const groupData = {
         name: groupName,
-        members: membersSelect
+        members: membersSelect,
+        admin: userId
     };
     
     try {
@@ -65,7 +67,7 @@ async function createGroup(e) {
 
             alert(response.data.message);
             
-            window.location.href =  `./chatapp.html?groupId=${groupId}`;
+            window.location.href =  `./group.html`;
 
         }
     } catch (error) {
@@ -122,8 +124,13 @@ function showAllGroups(groups) {
 
       const iframe = document.createElement("iframe");
       iframe.src = group.groupLink;
-      iframe.style.width = "100%";
-      iframe.style.height = "400px"; // Adjust the height as needed
+      iframe.style.position = "fixed";
+      iframe.style.top = "50%";
+      iframe.style.left = "50%";
+      iframe.style.transform = "translate(-50%, -50%)";
+      iframe.style.width = "60%";
+      iframe.style.height = "400px"// Adjust the height as needed
+      
 
       listItem.appendChild(iframe);
       activeIframe = iframe;

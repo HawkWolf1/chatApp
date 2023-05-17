@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 
 const sequelize = require('../util/database')
+const { isNull } = require('util')
 
 
 const grpTable = sequelize.define('group', {
@@ -26,6 +27,12 @@ const grpTable = sequelize.define('group', {
         type: Sequelize.STRING,
         allowNull: false,
         defaultValue: ''
+    },
+    admin:
+    {  type:Sequelize.INTEGER,
+        allowNull: false,
+        
+
     }
     
     

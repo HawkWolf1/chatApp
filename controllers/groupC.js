@@ -31,7 +31,9 @@ const createGroup = async (req, res) => {
       const newGroup = {
         members: req.body.members,
         groupName: req.body.name,
-        id: req.body.id
+        id: req.body.id,
+        admin: req.user.id
+        
       };
   
       const result = await grpTable.create(newGroup);
@@ -86,7 +88,7 @@ const createGroup = async (req, res) => {
 
 
 
-  
+
 
   const showGroups = async (req, res, next) => {
     try {
