@@ -6,6 +6,7 @@ const router = express.Router();
 const userController = require('../controllers/userC')
 const msgController = require('../controllers/messageC')
 const groupController = require('../controllers/groupC')
+const adminController = require('../controllers/adminC')
 
 const userAuthentication = require('../middleware/auth')
 
@@ -15,7 +16,12 @@ router.post('/user/login', userController.loginN)
 
 router.post('/user/sendMessage',userAuthentication.authenticate, msgController.sendMessage)
 router.get('/user/getChats',userAuthentication.authenticate, msgController.getMessage)
-router.get('/user/members',userAuthentication.authenticate, msgController.getUsers)
+
+router.get('/user/members',userAuthentication.authenticate, adminController.getUsers)
+router.get('/user/isAdmin',userAuthentication.authenticate, adminController.isAdmin)
+router.get('/user/checkAdmin',userAuthentication.authenticate, adminController.checkAdmin)
+router.post('/user/addMoreUser',userAuthentication.authenticate, adminController.addMoreUser)
+router.delete('/user/removeUser',userAuthentication.authenticate, adminController.removeUser)
 
 router.post('/group/create',userAuthentication.authenticate, groupController.createGroup)
 router.get('/user/all', groupController.fetchMembers)

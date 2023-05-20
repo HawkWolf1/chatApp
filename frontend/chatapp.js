@@ -55,30 +55,11 @@ document.getElementById("send").addEventListener("click", async () => {
     }
   }
   
-
   fetchChats()
 
 
 
-async function showMembers(){
-  try{
-  const token = localStorage.getItem("token");
-      const urlParams = new URLSearchParams(window.location.search);
-      const groupId = urlParams.get("groupId");
-
-  const response = await axios.get("http://localhost:4000/user/members", {
-      params: { groupId },
-      headers: { Authorization: token },
-    });
-
-    const members = response.data.users
-
-    members.forEach((member) => {
-      console.log("Name:", member.name);
-      console.log("Email:", member.email);
-    });
-  } catch (error) {
-    console.log(error);
   
-}
-}
+
+    
+  

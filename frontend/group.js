@@ -35,7 +35,7 @@ function addSelectedMember() {
 
     if (selectedMember) {
       if (selectedMembers) {
-        selectedMembers += ", " + selectedMember;
+        
       } else {
         selectedMembers = selectedMember;
       }

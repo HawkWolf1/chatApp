@@ -1,11 +1,5 @@
 const chatTable = require('../models/messageTable')
 
-const grpTable = require('../models/groupTable')
-
-const myTable = require('../models/userTable')
-
-const groupNUser = require('../models/usergroupTable')
-
 
 
 const sendMessage = async (req, res) => {
@@ -40,6 +34,9 @@ const sendMessage = async (req, res) => {
 
 
 
+
+
+
 const getMessage = async (req, res, next) => {
   try {
     const groupId = req.query.groupId
@@ -57,43 +54,16 @@ const getMessage = async (req, res, next) => {
 
 
 
-const getUsers = async (req, res) => {
-  try {
-    const groupId = req.query.groupId;
 
-    // Find all the userIDs corresponding to the given groupID
-    const users = await groupNUser.findAll({
-      attributes: ['userId'],
-      where: {
-        groupId: groupId
-      }
-    });
 
-    // Extract the userIDs from the result
-    const userIds = users.map(user => user.userId);
 
-    // Find the names and emails of users based on the userIDs
-    const userDetails = await myTable.findAll({
-      attributes: ['name', 'email'],
-      where: {
-        id: userIds
-      }
-    });
 
-    res.status(200).json({
-      message: "User details retrieved successfully",
-      users: userDetails
-    });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      message: "Error retrieving user details"
-    });
-  }
-};
+
+
+
+
 
   module.exports = {
    sendMessage,
    getMessage,
-   getUsers
 }

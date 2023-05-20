@@ -1,28 +1,19 @@
-h3 {
-    text-align: center;
-    display: flex;
-    align-items: center;
-  }
+.members-list {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  z-index: 9999;
+}
 
-  .menu-icon {
-    margin-left: 10px;
-    cursor: pointer;
-  }
-
-  .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 40px;
-    right: 10px;
-    background-color: #f9f9f9;
-    min-width: 150px;
-    padding: 10px;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  }
-
-  .dropdown-menu a {
-    display: block;
-    padding: 5px;
-    cursor: pointer;
-  }
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9998;
+}
