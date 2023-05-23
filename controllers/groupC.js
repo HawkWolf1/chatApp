@@ -32,7 +32,7 @@ const createGroup = async (req, res) => {
         members: req.body.members,
         groupName: req.body.name,
         id: req.body.id,
-        admin: req.user.id
+        // admin: req.user.id
         
       };
   
@@ -61,10 +61,12 @@ const createGroup = async (req, res) => {
 
      console.log('Member IDs:', memberIDs);
 
-     await Promise.all(memberIDs.map(memberID => {
-      return groupNUser.create({
+     await Promise.all(memberIDs.map(async (memberID) => {
+      const admin = (memberID === req.user.id); // Check if the member is the creator
+      await groupNUser.create({
         groupId: groupId,
-        userId: memberID
+        userId: memberID,
+        admin: admin,
       });
     }));
 

@@ -28,12 +28,7 @@ const grpTable = sequelize.define('group', {
         allowNull: false,
         defaultValue: ''
     },
-    admin:
-    {  type:Sequelize.INTEGER,
-        allowNull: false,
-        
-
-    }
+    
     
     
 },

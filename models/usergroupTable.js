@@ -12,6 +12,13 @@ const grp_usersTable = sequelize.define('groups/users', {
       allowNull: false,
       primaryKey: true,
     },
+    admin:
+    {  type:Sequelize.BOOLEAN,
+        allowNull: false,
+        default:0
+        
+
+    }
   });
 
 

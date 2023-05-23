@@ -19,9 +19,10 @@ router.get('/user/getChats',userAuthentication.authenticate, msgController.getMe
 
 router.get('/user/members',userAuthentication.authenticate, adminController.getUsers)
 router.get('/user/isAdmin',userAuthentication.authenticate, adminController.isAdmin)
-router.get('/user/checkAdmin',userAuthentication.authenticate, adminController.checkAdmin)
 router.post('/user/addMoreUser',userAuthentication.authenticate, adminController.addMoreUser)
-router.delete('/user/removeUser',userAuthentication.authenticate, adminController.removeUser)
+router.delete('/user/removeUser', adminController.removeUser)
+router.delete('/admin/remove', adminController.adminRemove)
+router.post('/admin/Add', adminController.adminAdd)
 
 router.post('/group/create',userAuthentication.authenticate, groupController.createGroup)
 router.get('/user/all', groupController.fetchMembers)

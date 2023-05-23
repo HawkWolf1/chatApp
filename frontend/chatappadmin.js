@@ -10,8 +10,9 @@ async function showMembers() {
     });
 
     const members = response.data.users;
+    console.log(members)
 
-    // Sort members array alphabetically by name
+
     members.sort((a, b) => a.name.localeCompare(b.name));
 
     const container = document.createElement("div");
@@ -22,21 +23,13 @@ async function showMembers() {
       listItem.textContent = `Name: ${member.name}, Email: ${member.email}`;
       listItem.setAttribute("id", `user-${member.id}`);
 
-      // Add the 'isAdmin' dataset attribute
-      // listItem.dataset.isAdmin = member.isAdmin;
+      console.log(`User ID: ${member.id}`);
+
 
       const overlay = document.createElement("div");
       overlay.classList.add("overlay");
 
       listItem.addEventListener("click", () => {
-        // const removeButton = document.createElement("button");
-        // removeButton.textContent = "Remove";
-        // removeButton.addEventListener("click", (event) => {
-        //   event.stopPropagation();
-        //   removeUser(groupId, member.id);
-        // });
-
-        // listItem.appendChild(removeButton);
         listItem.appendChild(overlay);
       });
 
@@ -49,12 +42,6 @@ async function showMembers() {
         event.stopPropagation();
       });
   
-      // container.addEventListener("mouseleave", () => {
-      //   const removeButtons = container.querySelectorAll("button");
-      //   removeButtons.forEach((button) => button.remove());
-      //   const overlays = container.querySelectorAll(".overlay");
-      //   overlays.forEach((overlay) => overlay.remove());
-      // });
   
       const overlay = document.createElement("div");
       overlay.classList.add("overlay");
@@ -294,40 +281,129 @@ async function showMembers() {
 
 
 
-  // async function modifyAdmins() {
-  //   try {
-  //     const token = localStorage.getItem("token");
-  //     const urlParams = new URLSearchParams(window.location.search);
-  //     const groupId = urlParams.get("groupId");
+  async function modifyAdmins() {
+    try {
+      const token = localStorage.getItem("token");
+      const urlParams = new URLSearchParams(window.location.search);
+      const groupId = urlParams.get("groupId");
   
-  //     const response = await axios.get("http://localhost:4000/user/checkAdmin", {
-  //       params: { groupId },
-  //       headers: { Authorization: token },
-  //     });
+      const response = await axios.get("http://localhost:4000/user/members", {
+        params: { groupId },
+        headers: { Authorization: token },
+      });
   
-  //     const isAdmin = response.data.isAdmin;
+      const users = response.data.users;
+
   
-  //     if (isAdmin) {
-  //       const members = await showMembers();
+      const adminsList = [];
+      const nonAdminsList = [];
   
-  //       const container = document.createElement("div");
-  //       container.classList.add("members-list");
+      users.forEach((user) => {
+        const listItem = document.createElement("div");
+        listItem.textContent = `Name: ${user.name}, Email: ${user.email}`;
   
-  //       members.forEach((member) => {
-  //         if (member.isAdmin) {
-  //           const listItem = document.createElement("div");
-  //           listItem.textContent = `Name: ${member.name}, Email: ${member.email}`;
-  //           listItem.setAttribute("id", `user-${member.id}`);
+        const button = document.createElement("button");
+        button.textContent = user.isAdmin ? "Remove Admin" : "Make Admin";
   
-  //           container.appendChild(listItem);
-  //         }
-  //       });
+        if (user.isAdmin) {
+          button.addEventListener("click", () => {
+            removeAdmin(user.id, listItem);
+          });
+        } else {
+          button.addEventListener("click", () => {
+            makeAdmin(user.id, listItem);
+          });
+        }
   
-  //       // Show the list of admin members
-  //       document.body.appendChild(container);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+        listItem.appendChild(button);
+  
+        if (user.isAdmin) {
+          adminsList.push(listItem);
+        } else {
+          nonAdminsList.push(listItem);
+        }
+      });
+  
+      adminsList.sort((a, b) => a.textContent.localeCompare(b.textContent));
+      nonAdminsList.sort((a, b) => a.textContent.localeCompare(b.textContent));
+  
+      const container = document.createElement("div");
+  
+      const adminsSection = document.createElement("div");
+      adminsSection.classList.add("members-section");
+      adminsSection.textContent = "Admins List";
+      adminsList.forEach((listItem) => adminsSection.appendChild(listItem));
+  
+      const nonAdminsSection = document.createElement("div");
+      nonAdminsSection.classList.add("members-section");
+      nonAdminsSection.textContent = "Non-Admins List";
+      nonAdminsList.forEach((listItem) => nonAdminsSection.appendChild(listItem));
+  
+      container.appendChild(adminsSection);
+      container.appendChild(nonAdminsSection);
+  
+      const popupContainer = document.createElement("div");
+      popupContainer.classList.add("popup-container");
+      popupContainer.appendChild(container);
+  
+      document.body.appendChild(popupContainer);
+  
+      // Add event listener to fade and close the pop-up when clicked outside
+      document.body.addEventListener("click", (event) => {
+        if (popupContainer && popupContainer.parentNode === document.body && !popupContainer.contains(event.target)) {
+          document.body.removeChild(popupContainer);
+        }
+      });
+  
+      return users;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+
+
+  async function removeAdmin(userId, listItem) {
+    const token = localStorage.getItem("token");
+    const urlParams = new URLSearchParams(window.location.search);
+    const groupId = urlParams.get("groupId");
+  
+    try {
+      response = await axios.delete(`http://localhost:4000/admin/remove`, {
+        headers: { Authorization: token },
+        data: { userId: userId, groupId: groupId },
+      });
+  
+      // Remove the admin from the UI
+      const message = response.data.message;
+      alert(message);
+
+      listItem.parentNode.removeChild(listItem);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+  async function makeAdmin(userId, listItem) {
+    const token = localStorage.getItem("token");
+    const urlParams = new URLSearchParams(window.location.search);
+    const groupId = urlParams.get("groupId");
+  
+    try {
+      response = await axios.post(
+        `http://localhost:4000/admin/Add`,
+        { userId: userId, groupId: groupId },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+  
+      const message = response.data.message;
+      alert(message);
+  
+      listItem.parentNode.removeChild(listItem);
+    } catch (error) {
+      console.log(error);
+    }
+  }
       

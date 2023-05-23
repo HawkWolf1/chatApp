@@ -5,38 +5,44 @@ const groupNUser = require('../models/usergroupTable')
 
 
 
-
 const getUsers = async (req, res) => {
   try {
     const groupId = req.query.groupId;
 
-  
     const users = await groupNUser.findAll({
-      attributes: ['userId'],
+      attributes: ['userId', 'admin'], // Include the 'admin' column
       where: {
-        groupId: groupId
-      }
+        groupId: groupId,
+      },
     });
 
-   
     const userIds = users.map(user => user.userId);
-
-
     const userDetails = await myTable.findAll({
-      attributes: ['name', 'email'],
+      attributes: ['id', 'name', 'email'],
       where: {
-        id: userIds
-      }
+        id: userIds,
+      },
+    });
+
+    // Merge 'admin' information into 'userDetails'
+    const usersWithAdmin = userDetails.map(user => {
+      const matchingUser = users.find(u => u.userId === user.id);
+      return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        isAdmin: matchingUser ? matchingUser.admin : false,
+      };
     });
 
     res.status(200).json({
       message: "User details retrieved successfully",
-      users: userDetails
+      users: usersWithAdmin,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     res.status(500).json({
-      message: "Error retrieving user details"
+      message: "Error retrieving user details",
     });
   }
 };
@@ -52,14 +58,17 @@ const isAdmin = async (req, res) => {
     const groupId = req.query.groupId;
     const userId = req.user.id
 
-    const group = await grpTable.findOne({
+    const group = await groupNUser.findOne({
       where: {
-        id: groupId,
-        admin: userId
+        groupId: groupId,
+        userId: userId,
+        admin: true
       }
     });
+    console.log(group)
+    console.log('cxcxcxcxcxcxcxcxcxc')
 
-    if (group && group.admin) {
+    if (group) {
       res.status(200).json({ isAdmin: true });
     } else {
       res.status(200).json({ isAdmin: false });
@@ -168,50 +177,105 @@ const addMoreUser = async (req, res) => {
 
 
 
-const removeUser = async(req,res) =>{
+const removeUser = async (req, res) => {
   try {
     const groupId = req.body.groupId;
     const userId = req.body.userId;
-    console.log(groupId)
+
     console.log(userId)
-    console.log('gggg')
-    // Remove the user from the groupNUser table
+    console.log('fffffffffffffff')
+
     await groupNUser.destroy({ where: { groupId, userId } });
-    console.log('111')
+
+    const remainingUsers = await groupNUser.findAll({
+      where: { groupId },
+    });
+
+    const remainingUserIds = remainingUsers.map((user) => user.userId);
+    const remainingUserEmails = await myTable.findAll({
+      attributes: ["email"],
+      where: { id: remainingUserIds },
+    });
+
+    const updatedMembers = remainingUserEmails.map((user) => user.email).join(", ");
+    await grpTable.update(
+      { members: updatedMembers },
+      { where: { id: groupId } }
+    );
+
     res.status(200).json({ message: "User removed successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error removing user from the group" });
   }
-}
+};
 
 
 
 
 
-
-const checkAdmin = async (req, res) => {
+const adminRemove = async (req, res) => {
   try {
-    const groupId = req.query.groupId;
+    const { groupId } = req.body;
+    const {userId} = req.body
 
-    const adminId = await grpTable.findOne({
-      attributes: ['admin'],
+    const userIds = await groupNUser.findAll({
+      attributes: ['userId'],
       where: {
-        id: groupId,
+        groupId: groupId,
       },
     });
 
-    const isAdmin = await myTable.findOne({
-      attributes: ['id'],
-      where: {
-        id: adminId.admin,
-      },
-    });
+    console.log(userIds)
 
-    res.status(200).json({ isAdmin: !!isAdmin });
+    await groupNUser.update(
+      { admin: false },
+      {
+        where: {
+          groupId: groupId,
+          userId: userId
+          
+        },
+      }
+    );
+
+    res.status(200).json({ message: "Admin removed successfully", userIds });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Error checking admin status" });
+    res.status(500).json({ error: "Something went wrong" });
+  }
+};
+
+
+
+
+const adminAdd = async (req, res) => {
+  try {
+    const { groupId, userId } = req.body;
+
+    const userIds = await groupNUser.findAll({
+      attributes: ['userId'],
+      where: {
+        groupId: groupId,
+      },
+    });
+
+    console.log(userIds);
+
+    await groupNUser.update(
+      { admin: true },
+      {
+        where: {
+          groupId: groupId,
+          userId: userId,
+        },
+      }
+    );
+
+    res.status(200).json({ message: "Admin added successfully", userIds });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Something went wrong" });
   }
 };
 
@@ -221,5 +285,6 @@ const checkAdmin = async (req, res) => {
    isAdmin,
    addMoreUser,
    removeUser,
-   checkAdmin
+   adminRemove,
+   adminAdd
 }
