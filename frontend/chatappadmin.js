@@ -12,7 +12,6 @@ async function showMembers() {
     const members = response.data.users;
     console.log(members)
 
-
     members.sort((a, b) => a.name.localeCompare(b.name));
 
     const container = document.createElement("div");
@@ -24,7 +23,6 @@ async function showMembers() {
       listItem.setAttribute("id", `user-${member.id}`);
 
       console.log(`User ID: ${member.id}`);
-
 
       const overlay = document.createElement("div");
       overlay.classList.add("overlay");
@@ -90,6 +88,8 @@ async function showMembers() {
 
 
 
+
+
   async function openAdminModel() {
     try {
       const token = localStorage.getItem("token");
@@ -127,6 +127,8 @@ async function showMembers() {
       console.log(error);
     }
   }
+
+
 
 
 
@@ -179,10 +181,11 @@ async function showMembers() {
 
 
 
+
+
   async function removeUsers() {
     const members = await showMembers();
   
-    // Remove any existing member lists
     const existingLists = document.querySelectorAll(".members-list");
     existingLists.forEach((list) => list.remove());
   
@@ -243,6 +246,8 @@ async function showMembers() {
 
 
 
+
+  
   
   async function removeUser(groupId, userId) {
     try {

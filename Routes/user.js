@@ -16,6 +16,8 @@ router.post('/user/login', userController.loginN)
 
 router.post('/user/sendMessage',userAuthentication.authenticate, msgController.sendMessage)
 router.get('/user/getChats',userAuthentication.authenticate, msgController.getMessage)
+router.post('/group/nameChange',userAuthentication.authenticate, msgController.groupName)
+
 
 router.get('/user/members',userAuthentication.authenticate, adminController.getUsers)
 router.get('/user/isAdmin',userAuthentication.authenticate, adminController.isAdmin)

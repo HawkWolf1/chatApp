@@ -28,6 +28,8 @@ document.getElementById("send").addEventListener("click", async () => {
 
 
 
+  
+
 
   const parent = document.getElementById("chat");
 
@@ -58,6 +60,76 @@ document.getElementById("send").addEventListener("click", async () => {
   fetchChats()
 
 
+
+  window.addEventListener('load', function () {
+    const groupName = localStorage.getItem('groupName');
+    const appHeading = document.getElementById('appHeading');
+    if (groupName) {
+      appHeading.textContent = groupName;
+    }
+  });
+
+
+
+function initializeGroupNames() {
+  const groupNames = JSON.parse(localStorage.getItem("groupNames")) || {};
+  return groupNames;
+}
+
+
+function setGroupName(groupId, groupName) {
+  const groupNames = initializeGroupNames();
+  groupNames[groupId] = groupName;
+  localStorage.setItem("groupNames", JSON.stringify(groupNames));
+}
+
+function getGroupName(groupId) {
+  const groupNames = initializeGroupNames();
+  return groupNames[groupId];
+}
+
+async function changeGroupName() {
+  const newGroupName = prompt("Enter the new group name:");
+  if (newGroupName) {
+    try {
+      const token = localStorage.getItem("token");
+      const urlParams = new URLSearchParams(window.location.search);
+      const groupId = urlParams.get("groupId");
+
+      const response = await axios.post(
+        "http://localhost:4000/group/nameChange",
+        { groupId, newGroupName },
+        { headers: { Authorization: token } }
+      );
+
+      if (response.status === 200) {
+        const groupName = response.data.groupName;
+        console.log(groupName);
+        console.log(`Group name changed to: ${groupName}`);
+
+        const appHeading = document.getElementById("appHeading");
+        appHeading.textContent = groupName;
+
+      
+        setGroupName(groupId, groupName);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+function displayGroupName(groupId) {
+  const groupName = getGroupName(groupId);
+  if (groupName) {
+    const appHeading = document.getElementById("appHeading");
+    appHeading.textContent = groupName;
+  }
+}
+
+const urlParams = new URLSearchParams(window.location.search);
+const groupId = urlParams.get("groupId");
+displayGroupName(groupId);
 
   
 

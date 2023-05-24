@@ -59,7 +59,7 @@ const loginN = async (req, res, next) => {
                     res.status(500).json({success: false, message: 'We got some error'})
                 }
                 if(result===true){
-                    res.status(200).json({success: true, message: 'Login is successful', token: generateAccessToken(xyz[0].id, xyz[0].name), name:xyz[0].name, id:xyz[0].id})
+                    res.status(200).json({success: true, message: 'Login is successful', token: generateAccessToken(xyz[0].id, xyz[0].name), name:xyz[0].name, id:xyz[0].id, email:xyz[0].email})
                 }
                 else{
                   return res.status(400).json({success: false, message: 'Password is incorrect'})

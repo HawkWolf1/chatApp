@@ -1,5 +1,7 @@
 const chatTable = require('../models/messageTable')
 
+const grpTable = require('../models/groupTable')
+
 
 
 const sendMessage = async (req, res) => {
@@ -56,6 +58,32 @@ const getMessage = async (req, res, next) => {
 
 
 
+const groupName = async (req, res) => {
+  try {
+    const { groupId, newGroupName } = req.body;
+    console.log(req.body)
+    console.log('11111')
+
+    await grpTable.update(
+      { groupName: newGroupName },
+      { where: { id: groupId } },
+       );
+
+    console.log('11222222111')
+
+    res.status(200).json({ success: true, groupName: newGroupName });
+
+    console.log('3333333')
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: "Failed to update group name" });
+  }
+};
+
+
+
+
+
 
 
 
@@ -66,4 +94,5 @@ const getMessage = async (req, res, next) => {
   module.exports = {
    sendMessage,
    getMessage,
+   groupName
 }

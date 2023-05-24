@@ -16,6 +16,7 @@ async function login(event){
                     localStorage.setItem('token', pqr.data.token) 
                     localStorage.setItem('name', pqr.data.name) 
                     localStorage.setItem('userId', pqr.data.id) 
+                    localStorage.setItem('email', pqr.data.email)
                     window.location.href = "./group.html"                   
                     } else {
                         throw new Error('Unable to log you in!')

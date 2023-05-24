@@ -2,23 +2,32 @@ function showGroupForm(e) {
     e.preventDefault()
     document.getElementById("groupForm").style.display = "block";
     populateMembers();
+    addSelectedMember()
 }
 
 
 async function populateMembers() {
-    try {
-      const response = await axios.get("http://localhost:4000/user/all");
-      const membersSelect = document.getElementById("members");
-      membersSelect.innerHTML = "";
-      response.data.forEach((email) => {
-        const option = document.createElement("option");
-        option.text = email;
-        membersSelect.add(option);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  try {
+    const response = await axios.get("http://localhost:4000/user/all");
+    const membersSelect = document.getElementById("members");
+    membersSelect.innerHTML = "";
+
+    const currentUserEmail = getCurrentUserEmail();
+    const users = response.data.filter((email) => email !== currentUserEmail);
+
+    users.forEach((email) => {
+      const option = document.createElement("option");
+      option.text = email;
+      membersSelect.add(option);
+    });
+  } catch (error) {
+    console.log(error);
   }
+}
+
+function getCurrentUserEmail() {
+  return localStorage.getItem("email");
+}
 
 
 
@@ -28,20 +37,25 @@ groupForm.addEventListener("submit", createGroup);
 
 
 function addSelectedMember() {
-    const membersSelect = document.getElementById("members");
-    const selectedMembersInput = document.getElementById("selectedMembers");
-    const selectedMember = membersSelect.value;
-    let selectedMembers = selectedMembersInput.value.trim();
+  const membersSelect = document.getElementById("members");
+  const selectedMembersInput = document.getElementById("selectedMembers");
+  const selectedMember = membersSelect.value;
+  let selectedMembers = selectedMembersInput.value.trim();
 
-    if (selectedMember) {
-      if (selectedMembers) {
-        selectedMembers += ", " + selectedMember;
-      } else {
-        selectedMembers = selectedMember;
-      }
-      selectedMembersInput.value = selectedMembers;
+  if (!selectedMembers) {
+    const currentUserEmail = localStorage.getItem("email");
+    selectedMembers = currentUserEmail;
+  }
+
+  if (!selectedMembers.includes(selectedMember)) {
+    if (selectedMembers) {
+      selectedMembers += ", " + selectedMember;
+    } else {
+      selectedMembers = selectedMember;
     }
+  }
 
+  selectedMembersInput.value = selectedMembers;
 }
 
 
@@ -99,14 +113,26 @@ async function showGroupsList(e) {
 }
 
 
+
+
 let activeIframe = null; // Track the active iframe
 
 function showAllGroups(groups) {
   const groupList = document.getElementById("groupList");
   groupList.innerHTML = "";
 
+  const container = document.createElement("div");
+  container.style.position = "relative";
+
+  const list = document.createElement("ul");
+  list.style.display = "flex";
+  list.style.flexWrap = "wrap"; // Allow wrapping to next line
+
+  let groupCounter = 0; // Track the number of groups displayed
+
   groups.forEach((group) => {
     const listItem = document.createElement("li");
+    listItem.style.marginRight = "10px"; // Adjust the spacing between groups if needed
 
     const groupName = document.createElement("span");
     groupName.textContent = group.groupName;
@@ -114,33 +140,45 @@ function showAllGroups(groups) {
 
     const link = document.createElement("a");
     link.textContent = "Open chats";
-    link.href = "javascript:void(0)"; // Set href to prevent navigation
+    link.href = "javascript:void(0)";
 
     link.addEventListener("click", () => {
       if (activeIframe) {
-        // If an active iframe exists, remove it
         activeIframe.remove();
       }
 
+      const iframeContainer = document.createElement("div");
+      iframeContainer.style.position = "absolute";
+      iframeContainer.style.left = "0";
+      iframeContainer.style.top = "100%"; // Position the iframe container below the list
+      iframeContainer.style.width = "100%";
+      iframeContainer.style.height = "300px"; // Adjust the height as needed
+      iframeContainer.style.marginTop = "10px"; // Adjust the spacing between list and iframe if needed
+
       const iframe = document.createElement("iframe");
       iframe.src = group.groupLink;
-      iframe.style.position = "fixed";
-      iframe.style.top = "50%";
-      iframe.style.left = "50%";
-      iframe.style.transform = "translate(-50%, -50%)";
-      iframe.style.width = "60%";
-      iframe.style.height = "400px"// Adjust the height as needed
-      
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
 
-      listItem.appendChild(iframe);
+      iframeContainer.appendChild(iframe);
+      container.appendChild(iframeContainer);
       activeIframe = iframe;
     });
 
     listItem.appendChild(link);
-    groupList.appendChild(listItem);
+    list.appendChild(listItem);
+
+    groupCounter++;
+
+    if (groupCounter % 8 === 0) {
+      // Start a new line after every 8 groups
+      list.appendChild(document.createElement("br"));
+    }
   });
+
+  container.appendChild(list);
+  groupList.appendChild(container);
 }
-  
 
 
 
