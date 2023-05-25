@@ -66,7 +66,7 @@ const isAdmin = async (req, res) => {
       }
     });
     console.log(group)
-    console.log('cxcxcxcxcxcxcxcxcxc')
+
 
     if (group) {
       res.status(200).json({ isAdmin: true });
@@ -183,7 +183,6 @@ const removeUser = async (req, res) => {
     const userId = req.body.userId;
 
     console.log(userId)
-    console.log('fffffffffffffff')
 
     await groupNUser.destroy({ where: { groupId, userId } });
 
@@ -278,6 +277,8 @@ const adminAdd = async (req, res) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 };
+
+
 
 
   module.exports = {

@@ -47,11 +47,31 @@ document.getElementById("send").addEventListener("click", async () => {
     });
       const chats = response.data.msg;
     
-      chats.forEach(msg => {
-        const chatDiv = document.createElement("div");
-        chatDiv.innerHTML = `<strong>${msg.name}: </strong>${msg.message}`;
-        parent.appendChild(chatDiv);
-      });
+      const loggedInUserName = localStorage.getItem("name");
+
+chats.forEach(msg => {
+  const chatDiv = document.createElement("div");
+  const messageContent = document.createElement("span");
+  messageContent.innerHTML = msg.message;
+  chatDiv.appendChild(messageContent);
+
+  if (msg.name === loggedInUserName) {
+    chatDiv.style.textAlign = "right";
+    chatDiv.style.paddingRight = "10px";
+  } else {
+    const nameElement = document.createElement("span");
+    nameElement.innerHTML = msg.name + ": ";
+    nameElement.style.fontWeight = "bold";
+    chatDiv.insertBefore(nameElement, messageContent);
+    chatDiv.style.textAlign = "left";
+    chatDiv.style.paddingLeft = "10px";
+  }
+
+  chatDiv.style.marginBottom = "20px";
+  chatDiv.style.fontSize = "20px";
+  parent.appendChild(chatDiv);
+});
+      
     } catch (err) {
       console.log(err);
     }

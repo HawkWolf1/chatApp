@@ -1,6 +1,8 @@
 function showGroupForm(e) {
     e.preventDefault()
-    document.getElementById("groupForm").style.display = "block";
+    const groupForm = document.getElementById("groupForm");
+    groupForm.classList.add("open");
+    groupForm.style.display = "block";
     populateMembers();
     addSelectedMember()
 }
@@ -93,6 +95,10 @@ async function createGroup(e) {
 async function showGroupsList(e) {
   e.preventDefault();
   document.getElementById("showGroupsButton").style.display = "block";
+  document.getElementById("showGroupsButton").style.marginLeft = "40px"
+
+  const groupForm = document.getElementById("groupForm");
+  groupForm.style.display = "none";
   
   try {
       const token = localStorage.getItem("token");
@@ -136,23 +142,22 @@ function showAllGroups(groups) {
 
     const groupName = document.createElement("span");
     groupName.textContent = group.groupName;
-    listItem.appendChild(groupName);
 
-    const link = document.createElement("a");
-    link.textContent = "Open chats";
-    link.href = "javascript:void(0)";
+    groupName.addEventListener("mouseover", () => {
+      groupName.title = "Open chats"; // Set the title attribute for the prompt
+    });
 
-    link.addEventListener("click", () => {
+    groupName.addEventListener("click", () => {
       if (activeIframe) {
         activeIframe.remove();
       }
 
       const iframeContainer = document.createElement("div");
       iframeContainer.style.position = "absolute";
-      iframeContainer.style.left = "0";
-      iframeContainer.style.top = "100%"; // Position the iframe container below the list
-      iframeContainer.style.width = "100%";
-      iframeContainer.style.height = "300px"; // Adjust the height as needed
+      iframeContainer.style.left = "40";
+      iframeContainer.style.top = "150%"; // Position the iframe container below the list
+      iframeContainer.style.width = "70%";
+      iframeContainer.style.height = "400px"; // Adjust the height as needed
       iframeContainer.style.marginTop = "10px"; // Adjust the spacing between list and iframe if needed
 
       const iframe = document.createElement("iframe");
@@ -165,7 +170,7 @@ function showAllGroups(groups) {
       activeIframe = iframe;
     });
 
-    listItem.appendChild(link);
+    listItem.appendChild(groupName);
     list.appendChild(listItem);
 
     groupCounter++;
@@ -179,6 +184,8 @@ function showAllGroups(groups) {
   container.appendChild(list);
   groupList.appendChild(container);
 }
+
+
 
 
 

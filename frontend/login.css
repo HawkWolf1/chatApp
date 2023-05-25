@@ -1,23 +1,21 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #a0b3f0;
-    background-image: radial-gradient(#fff 2px, transparent 1px);
-    background-position: 0 0, 25px 25px;
-    background-size: 50px 50px;
+    background: linear-gradient(135deg, #ce82de 0%, #a2d3ea 100%);
+    color: #000000;
+  font-family: Arial, sans-serif;
   }
-  
   
   h3 {
     text-align: center;
     margin-top: 50px;
     margin-bottom: 20px;
+    color: #fff;
   }
+
 
   h4 {
     text-align: center;
     margin-top: 50px;
     margin-bottom: 20px;
-    color: #fff;
   }
   
   form {
@@ -25,7 +23,7 @@ body {
     margin: 0 auto;
     background-color: #fff;
     padding: 30px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 5px 2px 4px rgba(0, 0, 0, 0.1);
     border: 0px solid #060606;
   }
   
@@ -33,12 +31,11 @@ body {
     display: block;
     margin-bottom: 10px;
     font-weight: bold;
+
   }
   
-  input[type="text"],
   input[type="email"],
-  input[type="password"],
-  input[type="number"] {
+  input[type="password"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
@@ -47,7 +44,7 @@ body {
     box-sizing: border-box;
   }
   
-  button {
+  button.login-button {
     background-color: #4CAF50;
     color: #fff;
     padding: 10px 20px;
@@ -58,7 +55,7 @@ body {
     margin-bottom: 20px;
   }
   
-  button:hover {
+  button.login-button:hover {
     background-color: #3e8e41;
   }
   

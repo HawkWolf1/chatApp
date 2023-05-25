@@ -12,12 +12,13 @@
     
         <body>
           <div>
-            <h3 id="appHeading" style="display: inline;" > CHATAPP </h3>
-            <button type="button" id="groupName" style="display: inline;" onclick="changeGroupName()">change Group Name</button>
+            <h3 id="appHeading"> CHATAPP </h3>
+            <p><button type="button" id="groupName" style="display: inline;" onclick="changeGroupName()">CHANGE GROUP NAME</button>
 
-            <button type="button" id="members" style="display: inline;" onclick="showMembers()">See Members</button>
+            <button type="button" id="members" style="display: inline;" onclick="showMembers()">SEE MEMBERS</button>
             
-            <button type="button" id="adminButton" style="display: inline;" onclick="openAdminModel()">Admin</button>
+            <button type="button" id="adminButton" style="display: inline;" onclick="openAdminModel()">ADMIN</button>
+          </p>
           </div>
           
           <div id="adminModel" class="model">
@@ -28,6 +29,7 @@
                 <button type="button" onclick="removeUsers()">Remove Users</button>
                 <button type="button" onclick="modifyAdmins()">Modify Admins</button>
               </div>
+              <button type="button" class="close-button" onclick="closeAdminModel()">Close</button> 
 
               <div id="addUserForm" style="display: none;">
                 <label for="email">Email:</label>
@@ -45,8 +47,8 @@
                 </div>
                 
                 <div id="chatF">
-                  <input type="text" name="message" placeholder="Type your message!" id="chatInput">
-                  <button type="submit" id="send">Send</button>
+                  <input type="text" name="message" placeholder="Type your message!" id="chatInput" style="color: blue; font-weight: bold;">
+                  <button type="submit" id="send" class="send">SEND</button>
                 </form>
               </div>
         

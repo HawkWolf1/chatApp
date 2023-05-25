@@ -1,0 +1,230 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    background-image: linear-gradient(90deg, #8eb6dc 0%, #e19259 20%, #434c59 40%, #fafafa 75%,  #ffb732 100% );
+    background-size: 800% 800%;
+    animation: gradientAnimation 10s ease-in-out infinite;
+  }
+  
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  h3 {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+  
+  form {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  form button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  
+  form button:hover {
+    background-color: #45a049;
+  }
+  
+  #groupForm {
+    background: linear-gradient(45deg, #655f5f, #b3f2fe);
+  color: #fff;
+  padding: 20px;
+  margin: 30px auto;
+  max-width: 500px;
+  box-shadow: ( #ffffff, #020202) inset;
+    animation: openForm 3s ease forwards;
+    transform-origin: top;
+    opacity: 0;
+  }
+  
+  @keyframes openForm {
+    0% {
+      transform: scaleY(0.1);
+      opacity: 0;
+    }
+    80% {
+      transform: scaleY(1.2);
+      opacity: 1;
+    }
+    100% {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+  }
+  
+  #groupForm h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: black;
+    /* font-weight: bold; */
+  }
+  
+  #groupForm form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  #groupForm form input[type="text"],
+  #groupForm form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+ .B3
+   {
+    background-color: #535853;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  .B3:hover
+   {
+    background-color: #000000;
+  }
+
+  
+
+  .B1,
+  .B2 {
+    background-color: #c7ee52;
+    color: #000000;
+    padding: 10px 20px;
+    border: 2px;
+    outline: 2px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    
+  }
+
+  .B1:hover,
+  .B2:hover
+   {
+    background-color: #f4f8f4;
+    background-image: linear-gradient(45deg, rgba(201, 38, 38, 0.6), rgba(46, 56, 230, 0.3));
+    
+  }
+
+  
+  #groupList {
+    list-style: none;
+    padding: 0;
+  }
+  
+  #groupList li {
+    background-color: #da5454;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: showListItem 0.3s ease forwards;
+    opacity: 0;
+  }
+  
+  #groupList {
+    list-style: none;
+    padding-left: 0;
+  }
+
+
+  #groupList {
+    list-style-type: none;
+    position: relative;
+  }
+
+  #groupList {
+    position: relative;
+  }
+  
+  
+
+  #groupList li {
+    display: inline-block;
+    background-color: #da5454;
+    color: #fff;
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: showListItem 0.3s ease forwards;
+    opacity: 0;
+    margin-right: 10px; /* Adjust the spacing between group names */
+    font-family: "Arial", sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    transform: scale(0.9);
+  }
+  
+  #groupList li:hover {
+    transform: scale(1);
+    background-color: #f5f5f5;
+    color: #da5454;
+    cursor:pointer
+  }
+  
+  @keyframes showListItem {
+    0% {
+      opacity: 0;
+      transform: translateX(-10%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  #groupList li::after {
+    content: "";
+    display: block;
+    width: 80px; /* Adjust the width as needed */
+  }
+
+  #groupList li::before {
+    content: "";
+    display: inline-block;
+    width: 50px; /* Adjust the width as needed */
+  }
+  
+
+
+  iframe {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.2)),
+                radial-gradient(circle, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.1) 70%);
+    background-position: 0 0, 25px 25px;
+    background-size: 50px 50px;
+    opacity: 0.8;
+    border: 5px solid black;
+    border-radius: 10px;
+  
+  }
+
+  

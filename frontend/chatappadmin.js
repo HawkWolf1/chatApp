@@ -90,6 +90,8 @@ async function showMembers() {
 
 
 
+
+
   async function openAdminModel() {
     try {
       const token = localStorage.getItem("token");
@@ -127,6 +129,8 @@ async function showMembers() {
       console.log(error);
     }
   }
+
+
 
 
 
@@ -174,6 +178,7 @@ async function showMembers() {
       }
     }
   }
+
 
 
 
@@ -247,6 +252,8 @@ async function showMembers() {
 
 
 
+
+
   
   
   async function removeUser(groupId, userId) {
@@ -286,6 +293,8 @@ async function showMembers() {
 
 
 
+
+
   async function modifyAdmins() {
     try {
       const token = localStorage.getItem("token");
@@ -298,10 +307,26 @@ async function showMembers() {
       });
   
       const users = response.data.users;
-
   
-      const adminsList = [];
-      const nonAdminsList = [];
+      const popupContainer = document.createElement("div");
+      popupContainer.classList.add("popup-container");
+  
+      const container = document.createElement("div");
+      container.classList.add("admins-container");
+  
+      const adminsSection = document.createElement("div");
+      adminsSection.classList.add("members-section");
+      const adminsTitle = document.createElement("h4");
+      adminsTitle.classList.add("section-title");
+      adminsTitle.textContent = "ADMINS LIST";
+      adminsSection.appendChild(adminsTitle);
+  
+      const nonAdminsSection = document.createElement("div");
+      nonAdminsSection.classList.add("members-section");
+      const nonAdminsTitle = document.createElement("h4");
+      nonAdminsTitle.classList.add("section-title");
+      nonAdminsTitle.textContent = "NON-ADMINS LIST";
+      nonAdminsSection.appendChild(nonAdminsTitle);
   
       users.forEach((user) => {
         const listItem = document.createElement("div");
@@ -323,42 +348,52 @@ async function showMembers() {
         listItem.appendChild(button);
   
         if (user.isAdmin) {
-          adminsList.push(listItem);
+          adminsSection.appendChild(listItem);
         } else {
-          nonAdminsList.push(listItem);
+          nonAdminsSection.appendChild(listItem);
         }
       });
-  
-      adminsList.sort((a, b) => a.textContent.localeCompare(b.textContent));
-      nonAdminsList.sort((a, b) => a.textContent.localeCompare(b.textContent));
-  
-      const container = document.createElement("div");
-  
-      const adminsSection = document.createElement("div");
-      adminsSection.classList.add("members-section");
-      adminsSection.textContent = "Admins List";
-      adminsList.forEach((listItem) => adminsSection.appendChild(listItem));
-  
-      const nonAdminsSection = document.createElement("div");
-      nonAdminsSection.classList.add("members-section");
-      nonAdminsSection.textContent = "Non-Admins List";
-      nonAdminsList.forEach((listItem) => nonAdminsSection.appendChild(listItem));
   
       container.appendChild(adminsSection);
       container.appendChild(nonAdminsSection);
   
-      const popupContainer = document.createElement("div");
-      popupContainer.classList.add("popup-container");
       popupContainer.appendChild(container);
   
-      document.body.appendChild(popupContainer);
+      const overlay = document.createElement("div");
+      overlay.classList.add("popup-overlay");
   
-      // Add event listener to fade and close the pop-up when clicked outside
-      document.body.addEventListener("click", (event) => {
-        if (popupContainer && popupContainer.parentNode === document.body && !popupContainer.contains(event.target)) {
-          document.body.removeChild(popupContainer);
-        }
+      overlay.addEventListener("click", () => {
+        document.body.removeChild(popupContainer);
+        document.body.removeChild(overlay);
       });
+  
+      document.body.appendChild(popupContainer);
+      document.body.appendChild(overlay);
+  
+      const searchInput = document.createElement("input");
+      searchInput.setAttribute("type", "text");
+      searchInput.setAttribute("placeholder", "Search by name");
+      searchInput.classList.add("search-input");
+  
+      container.insertBefore(searchInput, container.firstChild);
+  
+      const handleSearch = (event) => {
+        const searchTerm = event.target.value.toLowerCase();
+  
+        const allItems = container.querySelectorAll(".members-section > div");
+  
+        allItems.forEach((item) => {
+          const name = item.textContent.toLowerCase();
+  
+          if (name.includes(searchTerm)) {
+            item.style.display = "block";
+          } else {
+            item.style.display = "none";
+          }
+        });
+      };
+  
+      searchInput.addEventListener("input", handleSearch);
   
       return users;
     } catch (error) {
@@ -366,6 +401,8 @@ async function showMembers() {
     }
   }
   
+
+
 
 
   async function removeAdmin(userId, listItem) {
@@ -389,6 +426,8 @@ async function showMembers() {
     }
   }
   
+
+  
   async function makeAdmin(userId, listItem) {
     const token = localStorage.getItem("token");
     const urlParams = new URLSearchParams(window.location.search);
@@ -410,5 +449,10 @@ async function showMembers() {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  function closeAdminModel() {
+    const adminModel = document.getElementById("adminModel");
+    adminModel.style.display = "none";
   }
       

@@ -1,42 +1,50 @@
 <html>
     <head>
-        <!-- <link rel="stylesheet" href="login.css"> -->
+        <link rel="stylesheet" href="group.css">
         <title> GROUP PAGE </title>
         <style>
             h3{text-align: center;}
+            h2{text-align: center;}
             p{text-align: center;}
 
+            .no-bullets {
+             list-style: none;
+             padding: 0;
+            }
+
+            
+
         </style>
-        <h3> GROUP PAGE </h3>
+        <h3> MANAGE YOUR GROUPS </h3>
     </head>
     
     <body>
     
     <form id="groupF">
-        <button onclick="showGroupForm(event)">Create Group</button>  
-        <button id="showGroupsButton" onclick="showGroupsList(event)">Show My Groups</button> 
+        <button class="B1" onclick="showGroupForm(event)">Create Group</button>  
+        <button id="showGroupsButton" class="B2" onclick="showGroupsList(event)">Show My Groups</button> 
 
 </form>
    
 <div id="groupForm" style="display:none">
     <h3>CREATE NEW GROUP</h3>
     <form>
-        <label>Group Name</label>
+        <label>GROUP NAME</label>
         <input type="text" name="groupname" id="groupname" required><br><br>
 
-        <label>Add Members</label>
+        <label>ADD MEMBERS</label>
         <select multiple id="members"  onchange="addSelectedMember()"></select><br><br>
 
-        <label>Selected Members</label>
+        <label>SELECTED MEMBERS</label>
         <input type="text" name="selectedMembers" id="selectedMembers" required ><br><br>
 
-        <button type="button" onclick="createGroup(event)">Create</button>
+        <button type="button" class="B3" onclick="createGroup(event)">Create</button>
 
         
 
     </form>
 </div>      
-        <ul id="groupList"></ul> 
+        <ul id="groupList" class="floating-list"></ul> 
 
         
 

@@ -44,10 +44,10 @@ const getMessage = async (req, res, next) => {
     const groupId = req.query.groupId
     const messages = await chatTable.findAll({
       where: { groupId: groupId },
-      limit: 10,
+      limit: 5,
       order: [['createdAt', 'DESC']]
     });
-      res.status(200).json({ msg: messages })
+      res.status(200).json({ msg: messages.reverse() })
   } catch (error) {
       console.log('Get message is failing', error)
       res.status(500).json({ error: 'err' })
@@ -69,23 +69,14 @@ const groupName = async (req, res) => {
       { where: { id: groupId } },
        );
 
-    console.log('11222222111')
 
     res.status(200).json({ success: true, groupName: newGroupName });
 
-    console.log('3333333')
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: "Failed to update group name" });
   }
 };
-
-
-
-
-
-
-
 
 
 
