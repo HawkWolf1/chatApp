@@ -5,6 +5,7 @@ const groupNUser = require('../models/usergroupTable')
 
 
 
+
 const getUsers = async (req, res) => {
   try {
     const groupId = req.query.groupId;
@@ -157,10 +158,11 @@ const addMoreUser = async (req, res) => {
 
        
         await Promise.all(
-          memberIDs.map((memberID) => {
+          memberIDs.map((memberID, index) => {
             return groupNUser.create({
               groupId,
               userId: memberID,
+              admin: index === 0, // Set admin to true for the logged-in user (index 0), false for others
             });
           })
         );
@@ -173,7 +175,6 @@ const addMoreUser = async (req, res) => {
     res.status(500).json({ message: "Error adding user to the group" });
   }
 };
-
 
 
 
