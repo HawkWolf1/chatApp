@@ -41,6 +41,8 @@
   border-radius: 5px;
   padding: 20px;
   z-index: 9999;
+  height: 300px; /* Set the desired height for the container */
+  overflow-y: auto;
 }
 
 .popup-overlay {
