@@ -1,11 +1,21 @@
-const express = require('express')
-const bodyParser = require('body-parser') 
-const cors = require('cors')
-const app = express() 
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server, {
+  cors: {
+    origin: '*',
+    methods: ['*'],
+  },
+});
 
-app.use(cors({
-    origin: "*"
-})) 
+app.use(bodyParser.json());
+app.use(cors());
+
+app.set('io', io);
+
+
 
 
 const sequelize = require('./util/database')
@@ -35,7 +45,13 @@ myTable.belongsToMany(myGroupTable, { through: myUsersGroupTable });
 
 
 
-sequelize.sync().then(() => {
-    app.listen(4000)
+sequelize
+.sync()
+.then(() => {
+  server.listen(4000, () => {
+    console.log('Server is running on port 4000');
+  });
 })
 .catch((err) => console.log(err))
+
+

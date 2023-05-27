@@ -18,6 +18,8 @@ const sendMessage = async (req, res) => {
 
     const result = await chatTable.create(newMessage);
 
+    req.app.get('io').emit('newMessage', newMessage);
+
     console.log(result);
 
     res.status(200).json({
@@ -48,12 +50,15 @@ const getMessage = async (req, res, next) => {
       order: [['createdAt', 'DESC']]
     });
       res.status(200).json({ msg: messages.reverse() })
+
+      const io = req.app.get('io');
+      io.emit('messages', messages);
+
   } catch (error) {
       console.log('Get message is failing', error)
       res.status(500).json({ error: 'err' })
   }
 }
-
 
 
 

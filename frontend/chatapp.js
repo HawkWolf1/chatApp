@@ -1,3 +1,7 @@
+const socket = io('http://localhost:4000');
+const loggedInUserName = localStorage.getItem("name");
+
+
 document.getElementById("send").addEventListener("click", async () => {
     try {
       const token = localStorage.getItem("token");
@@ -12,7 +16,9 @@ document.getElementById("send").addEventListener("click", async () => {
         message,
         groupId
       };
-  
+      
+      socket.emit("sendMessage", obj)
+
       console.log(obj);
   
       const result = await axios.post("http://localhost:4000/user/sendMessage",obj,{headers: {Authorization: token}});
@@ -24,6 +30,31 @@ document.getElementById("send").addEventListener("click", async () => {
       console.log(err);
     }
   });
+
+
+
+  function handleNewMessage(msg) {
+  const chatDiv = document.createElement("div");
+  const messageContent = document.createElement("span");
+  messageContent.innerHTML = msg.message;
+  chatDiv.appendChild(messageContent);
+
+  if (msg.name === loggedInUserName) {
+        chatDiv.style.textAlign = "right";
+        chatDiv.style.paddingRight = "10px";
+      } else {
+        const nameElement = document.createElement("span");
+        nameElement.innerHTML = msg.name + ": ";
+        nameElement.style.fontWeight = "bold";
+        chatDiv.insertBefore(nameElement, messageContent);
+        chatDiv.style.textAlign = "left";
+        chatDiv.style.paddingLeft = "10px";
+      }
+
+  chatDiv.style.marginBottom = "20px";
+  chatDiv.style.fontSize = "20px";
+  parent.appendChild(chatDiv);
+}
 
 
 
@@ -47,7 +78,7 @@ document.getElementById("send").addEventListener("click", async () => {
     });
       const chats = response.data.msg;
     
-      const loggedInUserName = localStorage.getItem("name");
+      
 
     chats.forEach(msg => {
       const chatDiv = document.createElement("div");
@@ -71,14 +102,14 @@ document.getElementById("send").addEventListener("click", async () => {
       chatDiv.style.fontSize = "20px";
       parent.appendChild(chatDiv);
     });
-      
+    socket.on('newMessage', handleNewMessage);
+    
     } catch (err) {
       console.log(err);
     }
   }
   
   fetchChats()
-
 
 
   window.addEventListener('load', function () {
