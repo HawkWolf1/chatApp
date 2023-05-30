@@ -90,7 +90,7 @@ const addMoreUser = async (req, res) => {
   try {
     const groupId = req.body.groupId;
     const email = req.body.email;
-    console.log('waterman')
+   
 
     const user = await myTable.findOne({ where: { email } });
     if (!user) {
@@ -100,7 +100,7 @@ const addMoreUser = async (req, res) => {
     const group = await grpTable.findOne({
       where: { id: groupId },
     });
-    console.log('rrrrrerman')
+    
     console.log('group:', group);
     if (group.members.includes(email)) {
       return res.status(400).json({ message: "User is already a member of the group" });
@@ -110,7 +110,7 @@ const addMoreUser = async (req, res) => {
     if (typeof membersArray === "string") {
       membersArray = membersArray.split(";").map((member) => member.trim());
     }
-    console.log('roseman')
+    
     const [affectedRows, _] = await grpTable.update(
       {
         members: membersArray.concat([email]).join(", "),
@@ -119,7 +119,7 @@ const addMoreUser = async (req, res) => {
         where: { id: groupId },
       }
     );
-    console.log('firerman')
+    
     console.log(affectedRows);
 
     if (affectedRows > 0) {
@@ -133,7 +133,7 @@ const addMoreUser = async (req, res) => {
       if (updatedGroup && updatedGroup.members) {
         const memberEmails = updatedGroup.members.split(",");
         const memberIDs = [];
-        console.log('rowdyman')
+    
         while (memberEmails.length > 0) {
           const email = memberEmails[0];
 
@@ -143,7 +143,7 @@ const addMoreUser = async (req, res) => {
               email: email.trim(),
             },
           });
-          console.log('baiganman')
+          
           if (member) {
             memberIDs.push(member.id);
             memberEmails.splice(0, 1);
@@ -151,7 +151,7 @@ const addMoreUser = async (req, res) => {
         }
 
         console.log("Member IDs:", memberIDs);
-        console.log('superman')
+        
 
       
         await groupNUser.destroy({ where: { groupId } });

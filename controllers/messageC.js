@@ -67,7 +67,7 @@ const groupName = async (req, res) => {
   try {
     const { groupId, newGroupName } = req.body;
     console.log(req.body)
-    console.log('11111')
+    
 
     await grpTable.update(
       { groupName: newGroupName },
