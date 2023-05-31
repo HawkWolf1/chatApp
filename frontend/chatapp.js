@@ -163,6 +163,7 @@ async function changeGroupName() {
 
       
         setGroupName(groupId, groupName);
+        
       }
     } catch (error) {
       console.log(error);
@@ -181,6 +182,28 @@ function displayGroupName(groupId) {
 const urlParams = new URLSearchParams(window.location.search);
 const groupId = urlParams.get("groupId");
 displayGroupName(groupId);
+
+
+
+async function leaveGroup() {
+  try {
+    const token = localStorage.getItem("token");
+    const urlParams = new URLSearchParams(window.location.search);
+    const groupId = urlParams.get("groupId");
+    const userId = localStorage.getItem("userId");
+
+    const response = await axios.delete("http://localhost:4000/leave/group", {
+      headers: { Authorization: token },
+      data: { userId: userId, groupId: groupId }
+    });
+
+    console.log(response.data);
+    alert(response.data.message);
+
+  } catch (error) {
+    console.log(error);
+  }
+}
 
   
 

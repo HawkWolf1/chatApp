@@ -25,6 +25,7 @@ const myTable = require('./models/userTable')
 const chatTable = require('./models/messageTable')
 const myGroupTable = require('./models/groupTable');
 const myUsersGroupTable = require('./models/usergroupTable')
+const archiveTable = require('./models/archivedMsgTable')
  
 
 app.use(bodyParser.json({extended: false})) 
@@ -41,6 +42,13 @@ chatTable.belongsTo(myGroupTable);
 
 myGroupTable.belongsToMany(myTable, { through: myUsersGroupTable });
 myTable.belongsToMany(myGroupTable, { through: myUsersGroupTable });
+
+
+myTable.hasMany(archiveTable);
+archiveTable.belongsTo(myTable);
+
+myGroupTable.hasMany(archiveTable);
+archiveTable.belongsTo(myGroupTable);
 
 
 

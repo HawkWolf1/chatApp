@@ -455,4 +455,31 @@ async function showMembers() {
     const adminModel = document.getElementById("adminModel");
     adminModel.style.display = "none";
   }
+
+
+
+  async function deleteGroup() {
+    try {
+      const token = localStorage.getItem("token");
+      const urlParams = new URLSearchParams(window.location.search);
+      const groupId = urlParams.get("groupId");
+  
+      const confirmDelete = confirm("Are you sure you want to delete this group?");
+      if (!confirmDelete) {
+        return;
+      }
+  
+      const response = await axios.delete(`http://localhost:4000/group/delete/${groupId}`, {
+        headers: { Authorization: token },
+      });
+  
+      console.log(response.data);
+      alert(response.data.message);
+  
+      window.top.location.href = "./group.html"  
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
       

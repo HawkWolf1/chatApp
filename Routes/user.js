@@ -14,9 +14,13 @@ const userAuthentication = require('../middleware/auth')
 router.post('/user/add-user',  userController.addUser)
 router.post('/user/login', userController.loginN)
 
+
+
 router.post('/user/sendMessage',userAuthentication.authenticate, msgController.sendMessage)
 router.get('/user/getChats',userAuthentication.authenticate, msgController.getMessage)
 router.post('/group/nameChange',userAuthentication.authenticate, msgController.groupName)
+router.delete('/leave/group',userAuthentication.authenticate, msgController.leaveGroup)
+
 
 
 router.get('/user/members',userAuthentication.authenticate, adminController.getUsers)
@@ -25,6 +29,9 @@ router.post('/user/addMoreUser',userAuthentication.authenticate, adminController
 router.delete('/user/removeUser', adminController.removeUser)
 router.delete('/admin/remove', adminController.adminRemove)
 router.post('/admin/Add', adminController.adminAdd)
+router.delete('/group/delete/:groupId', adminController.groupDelete)
+
+
 
 router.post('/group/create',userAuthentication.authenticate, groupController.createGroup)
 router.get('/user/all', groupController.fetchMembers)

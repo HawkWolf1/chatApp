@@ -282,11 +282,33 @@ const adminAdd = async (req, res) => {
 
 
 
+const groupDelete = async (req,res) =>{
+  try {
+    const groupId = req.params.groupId;
+
+    await groupNUser.destroy({ where: { groupId } });
+
+    const deletedGroup = await grpTable.destroy({ where: { id: groupId } });
+
+    if (deletedGroup) {
+      res.status(200).json({ message: "Group deleted successfully" });
+    } else {
+      res.status(404).json({ message: "Group not found" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error deleting group" });
+  }
+};
+
+
+
   module.exports = {
    getUsers,
    isAdmin,
    addMoreUser,
    removeUser,
    adminRemove,
-   adminAdd
+   adminAdd,
+   groupDelete
 }
