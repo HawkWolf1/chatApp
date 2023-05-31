@@ -62,7 +62,7 @@ const getMessage = async (req, res, next) => {
       where: {
         groupId: groupId,
         createdAt: {
-          [Sequelize.Op.lt]: moment().subtract(2, 'minutes').toDate()
+          [Sequelize.Op.lt]: moment().subtract(60, 'minutes').toDate()
         }
       }
     });
@@ -83,7 +83,7 @@ const getMessage = async (req, res, next) => {
       where: {
         groupId: groupId,
         createdAt: {
-          [Sequelize.Op.lt]: moment().subtract(2, 'minutes').toDate()
+          [Sequelize.Op.lt]: moment().subtract(60, 'minutes').toDate()
         }
       }
     });
